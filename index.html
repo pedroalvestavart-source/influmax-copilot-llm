@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfluMax Copilot | Hub do Criador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --primary: #8a2be2;
+      --primary-hover: #9d4edd;
+      --accent: #00d2ff;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --success: #238636;
+      --warning: #d29922;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* BARRA LATERAL: ONBOARDING */
+    .sidebar {
+      width: 420px;
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(138, 43, 226, 0.08);
+    }
+
+    .sidebar-header h1 {
+      font-size: 1.3rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-header h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sidebar-content {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* CARD DE AVISO DE CONSCIENTIZAÇÃO */
+    .alert-box {
+      background: rgba(210, 153, 34, 0.1);
+      border: 1px solid var(--warning);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: #e3b341;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .form-group small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .btn-save {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-save:hover {
+      background: var(--primary-hover);
+    }
+
+    /* ÁREA PRINCIPAL DO CHAT */
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #090d13;
+    }
+
+    .top-bar {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      background: rgba(35, 134, 54, 0.2);
+      color: #3fb950;
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--success);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #3fb950;
+      border-radius: 50%;
+    }
+
+    .trends-banner {
+      background: #111620;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 0.85rem;
+    }
+
+    .trend-tag {
+      background: rgba(0, 210, 255, 0.15);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      transition: all 0.2s;
+    }
+
+    .trend-tag:hover {
+      background: rgba(0, 210, 255, 0.3);
+    }
+
+    /* MENSAGENS */
+    .chat-messages {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .msg {
+      max-width: 80%;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .msg-bot {
+      align-self: flex-start;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 12px 12px 12px 2px;
+    }
+
+    .msg-user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px 12px 2px 12px;
+    }
+
+    /* BLOCOS DE ETAPAS NO CHAT */
+    .step-card {
+      background: #0d1117;
+      border-left: 4px solid var(--primary);
+      padding: 12px 14px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .director-tip {
+      background: rgba(138, 43, 226, 0.12);
+      border: 1px dashed var(--primary);
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #d8b4fe;
+    }
+
+    /* INPUT DE MENSAGEM */
+    .chat-input-area {
+      padding: 16px 24px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      color: white;
+      padding: 14px;
+      border-radius: 8px;
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    .chat-input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-send {
+      background: linear-gradient(135deg, var(--primary), #7928ca);
+      color: white;
+      border: none;
+      padding: 0 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-send:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA LATERAL: ONBOARDING DO INFLUENCIADOR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>InfluMax <span>Copilot</span></h1>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Hub Estratégico com LLM</p>
+    </div>
+
+    <div class="sidebar-content">
+      <!-- AVISO DE CONSCIENTIZAÇÃO -->
+      <div class="alert-box">
+        <strong>💡 Dica de Ouro da InfluMax:</strong><br>
+        Quanto mais detalhes e nuances você fornecer, mais afiada e autêntica será a IA. Respostas de uma linha geram conteúdos genéricos!
+      </div>
+
+      <div class="form-group">
+        <label>Nicho e Subnicho Específico</label>
+        <small>Ex: Finanças para jovens que ganham até 2 salários mínimos</small>
+        <input type="text" id="nicho" class="form-control" value="Educação financeira prática e renda extra">
+      </div>
+
+      <div class="form-group">
+        <label>Tom de Voz & Bordões</label>
+        <small>Como você fala? Usa gírias, humor, seriedade?</small>
+        <textarea id="tom" class="form-control">Descontraído, direto ao ponto, uso muito a expressão "sem enrolação" e metáforas do cotidiano.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Anti-Perfil (O que NUNCA fazer)</label>
+        <small>O que você recusa falar ou fazer nos vídeos?</small>
+        <textarea id="antiPerfil" class="form-control">Nunca falar de apostas/cassinos online, não usar termos difíceis da Faria Lima e evitar dancinhas.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Objetivo Atual & Métricas</label>
+        <small>Meta do momento nas redes</small>
+        <input type="text" id="objetivo" class="form-control" value="Sair de 4k para 10k seguidores aumentando retenção de Reels">
+      </div>
+
+      <div class="form-group">
+        <label>Inspirações / Referências</label>
+        <small>Criadores que você admira e o que gosta neles</small>
+        <input type="text" id="referencias" class="form-control" value="Nath Finanças (didática) e Primo Pobre (linguagem popular)">
+      </div>
+
+      <div class="form-group">
+        <label>Links das Redes Sociais</label>
+        <small>Instagram, TikTok, YouTube</small>
+        <input type="text" id="redes" class="form-control" value="@meunome.financas (Instagram, TikTok)">
+      </div>
+
+      <button class="btn-save" onclick="salvarPerfil()">Atualizar Contexto da IA</button>
+    </div>
+  </aside>
+
+  <!-- ÁREA PRINCIPAL -->
+  <main class="main-area">
+    <div class="top-bar">
+      <div>
+        <h2 style="font-size: 1.1rem; font-weight: 600;">Sessão de Criação & Direção</h2>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">A IA está operando com seu perfil salvo.</p>
+      </div>
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        Contexto Ativo
+      </div>
+    </div>
+
+    <!-- TENDÊNCIAS EM ALTA -->
+    <div class="trends-banner">
+      <span style="font-weight: 600; color: var(--text-muted);">🔥 Top Trends no seu nicho:</span>
+      <div class="trend-tag" onclick="usarTrend('Aumento da taxa de juros e cortes no orçamento')">📈 Alta dos Juros</div>
+      <div class="trend-tag" onclick="usarTrend('Como fazer R$ 100 virarem reserva sem passar sufoco')">💰 Reserva Rápida</div>
+      <div class="trend-tag" onclick="usarTrend('Golpes financeiros comuns da semana no WhatsApp')">⚠️ Alerta de Golpe</div>
+    </div>
+
+    <!-- CHAT INTERATIVO -->
+    <div class="chat-messages" id="chatArea">
+      <div class="msg msg-bot">
+        Olá! Eu sou o seu <strong>InfluMax Copilot</strong>. 🎬<br><br>
+        Já carreguei todo o seu perfil: seu tom descontraído, o foco em renda prática e as suas restrições (nada de jargão de banco ou apostas).<br><br>
+        Clique em uma das <strong>Top Trends</strong> acima ou me diga sobre qual assunto quer gravar hoje para começarmos a estruturar o roteiro passo a passo!
+      </div>
+    </div>
+
+    <!-- INPUT DE ENVIO -->
+    <div class="chat-input-area">
+      <input type="text" id="userInput" class="chat-input" placeholder="Digite uma ideia ou dúvida para o seu próximo vídeo..." onkeypress="handleKey(event)">
+      <button class="btn-send" onclick="enviarMensagem()">Enviar</button>
+    </div>
+  </main>
+
+  <script>
+    function salvarPerfil() {
+      const nicho = document.getElementById('nicho').value;
+      alert("✅ Perfil atualizado com sucesso!\nO Copilot agora usará esse contexto em todas as respostas.");
+      adicionarMensagemBot(`🔄 <strong>Contexto atualizado!</strong> Agora estou calibrado para o nicho <em>"${nicho}"</em> e pronto para criar conteúdos alinhados ao seu público.`);
+    }
+
+    function usarTrend(trend) {
+      document.getElementById('userInput').value = `Quero criar um vídeo inovador sobre: "${trend}"`;
+      enviarMensagem();
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter') enviarMensagem();
+    }
+
+    function adicionarMensagemBot(html) {
+      const chat = document.getElementById('chatArea');
+      const msg = document.createElement('div');
+      msg.className = 'msg msg-bot';
+      msg.innerHTML = html;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function adicionarMensagemUsuario(texto) {
+      const chat = document.getElementById('chatArea');
+      const msg = document.createElement('div');
+      msg.className = 'msg msg-user';
+      msg.innerText = texto;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function enviarMensagem() {
+      const input = document.getElementById('userInput');
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      adicionarMensagemUsuario(texto);
+      input.value = '';
+
+      // Simulação do raciocínio passo a passo do Copilot com contexto
+      setTimeout(() => {
+        const nicho = document.getElementById('nicho').value;
+        const tom = document.getElementById('tom').value;
+
+        const resposta = `
+          Ótima escolha! Para o nicho <strong>${nicho}</strong>, vamos fugir do clichê que todo mundo está fazendo e usar o seu tom autêntico. Aqui está o plano de direção completo:
+          
+          <div class="step-card">
+            <div class="step-title">🎯 1. O Gancho Magnético (Primeiros 0 a 3 segundos)</div>
+            <em>"Pare de guardar dinheiro na poupança achando que tá arrasando... você tá literalmente perdendo o almoço de amanhã!"</em>
+          </div>
+
+          <div class="step-card">
+            <div class="step-title">🎬 2. Desenvolvimento & Cenas (30 a 45 segundos)</div>
+            <strong>Fala:</strong> "Sem enrolação: quando a taxa de juros sobe, deixar o dinheiro parado no lugar errado é o mesmo que jogar nota pela janela. Você não precisa entender de bolsa de valores, só precisa colocar ele em algo simples que rende 100% do CDI todo dia."<br>
+            <span style="color: var(--text-muted); font-size: 0.85rem;">[Visual/B-Roll: Mostre a tela do celular abrindo um app de conta digital segura sem falar de marcas complexas].</span>
+          </div>
+
+          <div class="step-card">
+            <div class="step-title">💬 3. Chamada para Ação (CTA)</div>
+            <em>"Comenta aqui embaixo: você ainda deixa grana na poupança ou já migrou? Quero ver quem já acordou pra vida!"</em>
+          </div>
+
+          <div class="director-tip">
+            🎥 <strong>Dica do Diretor de Gravação:</strong><br>
+            Grave os primeiros 3 segundos olhando bem no olho da câmera e dando um passo para a frente para gerar dinamismo. Corte os respiros na edição para o vídeo ficar acelerado e reter a atenção até o final!
+          </div>
+        `;
+        adicionarMensagemBot(resposta);
+      }, 700);
+    }
+  </script>
+</body>
+</html>
