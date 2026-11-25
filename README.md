@@ -116,4 +116,4 @@ Padrão comum que todos estão fazendo: {padrao_repetitivo}
 
 ## 👤 Autor
 
-Projeto desenvolvido como parte do curso **Aplicações Práticas de LLMs** da trilha de IA da [DIO](https://dio.me).
+Desenvolvido por **Pedro Victor Alves Rodrigues Tavares** como parte do curso **Aplicações Práticas de LLMs** da trilha de IA da [DIO](https://dio.me).
